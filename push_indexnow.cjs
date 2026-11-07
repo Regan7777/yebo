@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const HOST = 'yebo.baby';
-const KEY = 'e4a7b9c138f24d9ea50b6c7d2e8f1a4c';
+const KEY = 'b6e7fa90d84e4662853c4da6fc4beb86';
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 
 // Collect all site URLs
