@@ -1,0 +1,443 @@
+---
+// 纯中文定制：电影级海平面首屏与滚动入场效果（移除第二张水下图片）
+---
+
+<div class="cinematic-ocean-container" id="ocean-container">
+  <!-- 视口钉住容器 -->
+  <div class="cinematic-viewport">
+    <!-- 顶部导航 -->
+    <header class="ocean-navbar">
+      <div class="nav-brand">
+        <!-- 诗意水波双纹 Logo (复刻截图) -->
+        <svg class="wave-icon" viewBox="0 0 38 18" fill="none">
+          <path d="M 3,10.5 C 7.5,5.5 13.5,5.5 18.5,10.2 C 23.5,15 29,15 34.5,9.5" stroke="#0b2238" stroke-width="2.2" stroke-linecap="round" />
+          <path d="M 7.5,14 C 11.5,9.8 15.5,9.8 19.5,13.2 C 23.5,16.5 27.5,16.5 31.5,12.8" stroke="#0b2238" stroke-width="1.8" stroke-linecap="round" opacity="0.65" />
+        </svg>
+        <span class="brand-title">夜 泊</span>
+      </div>
+
+      <nav class="nav-center">
+        <a href="#posts" class="nav-item" data-nav-cat="机场推荐">机场推荐</a>
+        <a href="#posts" class="nav-item" data-nav-cat="客户端教程">客户端教程</a>
+        <a href="#posts" class="nav-item" data-nav-cat="使用工具">使用工具</a>
+      </nav>
+    </header>
+
+    <!-- 背景层：唯一真实的海平面日落黄金时刻实景，下滑时自然加深过渡到正文背景 -->
+    <div class="bg-surface" id="bg-surface">
+      <img src="/images/ocean-sunset.jpg" alt="日落海平面" class="surface-img" id="surface-img" />
+      <div class="sun-glow"></div>
+      <div class="fade-to-black" id="fade-overlay"></div>
+    </div>
+
+    <!-- 首屏核心排版 (大宋体衬线、左侧留白、深色药丸胶囊按钮) -->
+    <div class="hero-editorial" id="hero-editorial">
+      <div class="sub-tracker">让喧嚣与世界慢下来</div>
+      
+      <h1 class="main-heading">
+        更近山海，<br />
+        夜泊此间。
+      </h1>
+
+      <p class="body-lead">
+        留一处不被打扰的片刻沉静，<br />
+        在深海与文字里，寻找无限可能。
+      </p>
+
+      <div class="action-buttons">
+        <a href="#posts" class="btn-navy-pill">
+          <span>浏览全部文字</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+
+        <a href="#posts" class="btn-watch-film" data-nav-cat="机场推荐">
+          <div class="play-circle">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <polygon points="6 4 20 12 6 20 6 4"></polygon>
+            </svg>
+          </div>
+          <span>机场推荐指引</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 左下角状态标识 (复刻原图: || 实时海况) -->
+    <div class="bottom-live-status" id="bottom-live">
+      <div class="live-icon">
+        <span></span>
+        <span></span>
+      </div>
+      <span class="live-text">实时海况 · 潮平如镜 · 暂歇泊舟</span>
+    </div>
+
+    <!-- 底部滚动引导提示 -->
+    <div class="scroll-dive-hint" id="dive-hint">
+      <div class="dive-mouse">
+        <div class="dive-wheel"></div>
+      </div>
+      <span>向下滚动 · 探索文字</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cinematic-ocean-container {
+    position: relative;
+    height: 160vh; /* 紧凑平滑的滚动过渡区间，不再有冗余插图 */
+    background: #020813;
+  }
+
+  .cinematic-viewport {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 顶部导航栏 */
+  .ocean-navbar {
+    position: absolute;
+    top: 1.8rem;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 0 clamp(1.5rem, 6vw, 5rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #0f1f38;
+    cursor: pointer;
+  }
+
+  .wave-icon {
+    width: 32px;
+    height: 16px;
+  }
+
+  .brand-title {
+    font-family: 'Noto Serif SC', 'Songti SC', 'Source Han Serif SC', 'SimSun', serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    letter-spacing: 0.22em;
+    color: #0b2238;
+    line-height: 1;
+    display: inline-block;
+  }
+
+  .nav-center {
+    display: none;
+    align-items: center;
+    gap: 2.8rem;
+  }
+
+  @media (min-width: 820px) {
+    .nav-center {
+      display: flex;
+    }
+  }
+
+  .nav-item {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1e293b;
+    letter-spacing: 0.05em;
+    transition: opacity 0.2s ease;
+  }
+
+  .nav-item:hover {
+    opacity: 0.65;
+  }
+
+  .btn-pill-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1.4rem;
+    border-radius: 9999px;
+    border: 1.2px solid rgba(15, 31, 56, 0.4);
+    color: #0f1f38;
+    font-size: 0.88rem;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
+  }
+
+  .btn-pill-outline:hover {
+    background: #0f1f38;
+    color: #fff;
+    border-color: #0f1f38;
+  }
+
+  /* 背景图层：仅保留首屏黄金时刻实景 */
+  .bg-surface {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .surface-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+    transform: scale(1.02);
+    transition: transform 0.1s ease-out;
+  }
+
+  .sun-glow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 70%;
+    background: radial-gradient(circle at 75% 55%, rgba(254, 215, 170, 0.35) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* 下滑时平滑变暗并融入深色正文区的高级遮罩 */
+  .fade-to-black {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(2, 8, 19, 0) 20%, rgba(2, 8, 19, 0.85) 75%, #020813 100%);
+    opacity: 0.15;
+    pointer-events: none;
+    transition: opacity 0.1s ease-out;
+  }
+
+  /* 核心中文排版区 */
+  .hero-editorial {
+    position: relative;
+    z-index: 30;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-left: clamp(2rem, 8vw, 7rem);
+    padding-right: 2rem;
+    max-width: 780px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sub-tracker {
+    font-size: clamp(0.78rem, 1.2vw, 0.9rem);
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    color: #1e3a5f;
+    margin-bottom: 1.5rem;
+  }
+
+  .main-heading {
+    font-family: var(--font-serif);
+    font-size: clamp(3.2rem, 7vw, 5.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #0f1f38;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.6rem;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+  }
+
+  .body-lead {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: #2b3e58;
+    line-height: 1.8;
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  /* 原图深色药丸按钮 */
+  .btn-navy-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 2.2rem;
+    border-radius: 9999px;
+    background: #0c192c;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    box-shadow: 0 10px 25px -5px rgba(12, 25, 44, 0.35);
+    transition: all 0.25s ease;
+  }
+
+  .btn-navy-pill:hover {
+    background: #172d4c;
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px -5px rgba(12, 25, 44, 0.45);
+  }
+
+  /* 原图线框带播放图标按钮 */
+  .btn-watch-film {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: transparent;
+    border: none;
+    color: #0f1f38;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.5rem 0.75rem;
+    letter-spacing: 0.02em;
+    transition: opacity 0.2s ease;
+  }
+
+  .btn-watch-film:hover {
+    opacity: 0.75;
+  }
+
+  .play-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid #0f1f38;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 2px;
+  }
+
+  /* 左下角状态标识 */
+  .bottom-live-status {
+    position: absolute;
+    bottom: 2.2rem;
+    left: clamp(2rem, 8vw, 7rem);
+    z-index: 35;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: rgba(15, 31, 56, 0.85);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+
+  .live-icon {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+  }
+
+  .live-icon span {
+    width: 3px;
+    height: 12px;
+    background: #0f1f38;
+    border-radius: 2px;
+  }
+
+  /* 滚动提示 */
+  .scroll-dive-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 35;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(15, 31, 56, 0.75);
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+  }
+
+  .dive-mouse {
+    width: 20px;
+    height: 32px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(15, 31, 56, 0.6);
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+  }
+
+  .dive-wheel {
+    width: 3px;
+    height: 6px;
+    background: #0f1f38;
+    border-radius: 2px;
+    animation: scrollAnim 1.8s infinite;
+  }
+
+  @keyframes scrollAnim {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(10px); opacity: 0; }
+  }
+
+  @media (max-width: 768px) {
+    .scroll-dive-hint {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // 仅基于首屏自然下潜/变暗过渡到正文的控制器
+  const container = document.getElementById('ocean-container');
+  const surfaceImg = document.getElementById('surface-img');
+  const heroEditorial = document.getElementById('hero-editorial');
+  const bottomLive = document.getElementById('bottom-live');
+  const diveHint = document.getElementById('dive-hint');
+  const fadeOverlay = document.getElementById('fade-overlay');
+
+  window.addEventListener('scroll', () => {
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+    const totalDist = container.offsetHeight - window.innerHeight;
+    const currentY = -rect.top;
+
+    const progress = Math.max(0, Math.min(1, currentY / totalDist));
+
+    // 1. 水面图片随下滑自然微缩放与微上浮
+    if (surfaceImg) {
+      surfaceImg.style.transform = `scale(${1 + progress * 0.18}) translateY(-${progress * 35}px)`;
+    }
+
+    // 2. 文字优雅向上淡出
+    if (heroEditorial) {
+      const textOpacity = Math.max(0, 1 - progress * 2.2);
+      heroEditorial.style.opacity = `${textOpacity}`;
+      heroEditorial.style.transform = `translateY(-${progress * 120}px)`;
+      heroEditorial.style.pointerEvents = textOpacity <= 0.05 ? 'none' : 'auto';
+    }
+
+    // 3. 背景平滑变暗并自然融入深色博客正文（无多余杂图）
+    if (fadeOverlay) {
+      fadeOverlay.style.opacity = `${0.15 + progress * 0.85}`;
+    }
+
+    // 4. 底部状态与提示在滚动时淡出
+    if (bottomLive) bottomLive.style.opacity = `${Math.max(0, 1 - progress * 3)}`;
+    if (diveHint) diveHint.style.opacity = `${Math.max(0, 1 - progress * 3)}`;
+  });
+</script>

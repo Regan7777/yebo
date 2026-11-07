@@ -1,0 +1,648 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface ToolItem {
+  id: string;
+  name: string;
+  category: 'proxy' | 'ai' | 'network' | 'media';
+  badge: string;
+  desc: string;
+  icon: string;
+  platforms: string[];
+  officialUrl: string;
+  officialBtnText: string;
+  tutorialUrl: string;
+  tutorialBtnText: string;
+}
+
+const tools: ToolItem[] = [
+  {
+    id: 'clash-verge-rev',
+    name: 'Clash Verge Rev',
+    category: 'proxy',
+    badge: '代理客户端',
+    desc: '基于 Tauri 框架打造的现代 Clash Meta/Mihomo 内核客户端，轻巧美观，支持智能分流与规则扩展配置。',
+    icon: '/images/tools/clash-verge.png',
+    platforms: ['Win', 'Mac', 'Linux'],
+    officialUrl: 'https://github.com/clash-verge-rev/clash-verge-rev/releases',
+    officialBtnText: '官网下载',
+    tutorialUrl: '/posts/clash-verge-rev-tutorial',
+    tutorialBtnText: '使用教程',
+  },
+  {
+    id: 'sing-box',
+    name: 'Sing-box',
+    category: 'proxy',
+    badge: '代理平台',
+    desc: '下一代通用代理网络平台，支持 Shadowsocks、VLESS、Hysteria2、TUIC 等全部主流新协议，内存占用极低。',
+    icon: '/images/tools/sing-box.png',
+    platforms: ['全平台'],
+    officialUrl: 'https://sing-box.sagernet.org',
+    officialBtnText: '官方文档',
+    tutorialUrl: '/posts/sing-box-tutorial',
+    tutorialBtnText: '使用教程',
+  },
+  {
+    id: 'shadowrocket',
+    name: 'Shadowrocket',
+    category: 'proxy',
+    badge: 'iOS 客户端',
+    desc: 'iOS / iPadOS 平台最经典的轻量级规则分流代理工具（小火箭），配置灵活，支持多种订阅一键导入。',
+    icon: '/images/tools/shadowrocket.png',
+    platforms: ['iOS'],
+    officialUrl: 'https://apps.apple.com/app/shadowrocket/id932747118',
+    officialBtnText: 'App Store',
+    tutorialUrl: '/posts/shadowrocket-tutorial',
+    tutorialBtnText: '使用教程',
+  },
+  {
+    id: 'v2rayn',
+    name: 'v2rayN',
+    category: 'proxy',
+    badge: 'Windows 客户端',
+    desc: 'Windows 平台老牌经典代理 GUI 客户端，全面兼容 Xray 内核与 Sing-box 内核，支持全自动真连接批量测速。',
+    icon: '/images/tools/v2rayn.png',
+    platforms: ['Windows'],
+    officialUrl: 'https://github.com/2dust/v2rayN/releases',
+    officialBtnText: 'GitHub',
+    tutorialUrl: '/posts/v2rayn-tutorial',
+    tutorialBtnText: '使用教程',
+  },
+  {
+    id: 'clash-mi',
+    name: 'Clash Mi',
+    category: 'proxy',
+    badge: '跨端轻量',
+    desc: '基于 Flutter 框架打造的跨平台轻量代理利器，内置 Mihomo 满血内核与精致 Web 仪表盘，极低待机内存消耗。',
+    icon: '/images/tools/clash-mi.png',
+    platforms: ['全平台'],
+    officialUrl: 'https://clashmi.app',
+    officialBtnText: '官网下载',
+    tutorialUrl: '/posts/clash-mi-tutorial',
+    tutorialBtnText: '使用教程',
+  },
+  {
+    id: 'nextin',
+    name: 'Nextin (星拓)',
+    category: 'proxy',
+    badge: 'Apple 全生态',
+    desc: '专为 Apple 全生态打造的免费高性能客户端，App Store 免费获取，原生支持 VLESS/Reality 与 Apple TV 客厅串流。',
+    icon: '/images/tools/nextin.png',
+    platforms: ['Apple全系'],
+    officialUrl: 'https://nextin.mom',
+    officialBtnText: '官方主页',
+    tutorialUrl: '/posts/nextin-tutorial',
+    tutorialBtnText: '使用教程',
+  },
+  {
+    id: 'karing',
+    name: 'Karing',
+    category: 'proxy',
+    badge: '多协议聚合',
+    desc: '基于 Flutter 与优化版 sing-box 核心开发的开源代理客户端，通吃全格式订阅，支持局域网与 WebDAV 一键跨端同步。',
+    icon: '/images/tools/karing.png',
+    platforms: ['全平台'],
+    officialUrl: 'https://karing.app',
+    officialBtnText: '官网下载',
+    tutorialUrl: '/posts/karing-tutorial',
+    tutorialBtnText: '使用教程',
+  },
+  {
+    id: 'deepseek',
+    name: 'DeepSeek',
+    category: 'ai',
+    badge: '推理大模型',
+    desc: '拥有顶尖数学与代码逻辑推理能力的开源大模型，V3 通用版与 R1 满血深度思考模型，提供极高性价比 API 接口。',
+    icon: '/images/tools/deepseek.png',
+    platforms: ['Web / App'],
+    officialUrl: 'https://chat.deepseek.com',
+    officialBtnText: '立即访问',
+    tutorialUrl: 'https://chat.deepseek.com',
+    tutorialBtnText: '使用指南',
+  },
+  {
+    id: 'chatgpt',
+    name: 'ChatGPT',
+    category: 'ai',
+    badge: '对话式 AI',
+    desc: '全球最主流的通用人工智能对话助手，支持 GPT-4o 多模态交互、高级实时语音、Canvas 代码协作及 DALL-E 绘图。',
+    icon: '/images/tools/chatgpt.png',
+    platforms: ['Web / App'],
+    officialUrl: 'https://chatgpt.com',
+    officialBtnText: '立即访问',
+    tutorialUrl: 'https://help.openai.com',
+    tutorialBtnText: '使用指南',
+  },
+  {
+    id: 'claude',
+    name: 'Claude',
+    category: 'ai',
+    badge: '代码与长文',
+    desc: 'Anthropic 出品的新一代 AI 助手，以超长上下文理解能力、极低幻觉率与无与伦比的代码编写及技术文档处理见长。',
+    icon: '/images/tools/claude.png',
+    platforms: ['Web / App'],
+    officialUrl: 'https://claude.ai',
+    officialBtnText: '立即访问',
+    tutorialUrl: 'https://docs.anthropic.com',
+    tutorialBtnText: '使用指南',
+  },
+  {
+    id: 'speedtest',
+    name: 'Speedtest by Ookla',
+    category: 'network',
+    badge: '带宽测速',
+    desc: '全球最权威的互联网连接测速服务平台，精准测试代理节点的下行带宽、上行速度、网络延迟与 Jitter 抖动。',
+    icon: '/images/tools/speedtest.png',
+    platforms: ['Web / App'],
+    officialUrl: 'https://www.speedtest.net',
+    officialBtnText: '开始测速',
+    tutorialUrl: '/posts/clash-verge-rev-tutorial',
+    tutorialBtnText: '测速指南',
+  },
+  {
+    id: 'ipinfo',
+    name: 'IP.sb / IPInfo',
+    category: 'network',
+    badge: '网络诊断',
+    desc: '精确查询当前代理节点的出站公网 IP、地理位置、所属 ASN 运营商、原生住宅/机房属性及欺诈分评分。',
+    icon: '/images/tools/ipinfo.png',
+    platforms: ['Web'],
+    officialUrl: 'https://ip.sb',
+    officialBtnText: '检测 IP',
+    tutorialUrl: '/posts/vpn-airport-recommendation-guide',
+    tutorialBtnText: '诊断指南',
+  },
+  {
+    id: 'subconverter',
+    name: 'Subconverter 订阅转换',
+    category: 'media',
+    badge: '格式转换',
+    desc: '将机场的通用订阅链接无损转换为 Clash、Sing-box、Surge、Shadowrocket 等专属格式，支持注入自定义分流规则。',
+    icon: '/images/tools/subconverter.png',
+    platforms: ['Web'],
+    officialUrl: 'https://sub.xeton.dev',
+    officialBtnText: '转换工具',
+    tutorialUrl: '/posts/subconverter-tutorial',
+    tutorialBtnText: '使用教程',
+  },
+  {
+    id: 'streaming',
+    name: '流媒体全区解锁检测',
+    category: 'media',
+    badge: '流媒体',
+    desc: '快速检测代理节点对 Netflix、Disney+、YouTube Premium、TikTok、OpenAI 等关键服务的原生解锁状态。',
+    icon: '/images/tools/streaming.png',
+    platforms: ['脚本 / Web'],
+    officialUrl: 'https://github.com/oneclickvirt/securityCheck',
+    officialBtnText: '查看脚本',
+    tutorialUrl: '/posts/shenxing-review',
+    tutorialBtnText: '实测参考',
+  },
+  {
+    id: 'immersive-translate',
+    name: '沉浸式双语翻译',
+    category: 'media',
+    badge: '效率扩展',
+    desc: '智能双语对照排版翻译浏览器扩展，支持接入各大顶尖大模型 API，流畅阅读外文技术文档与社交媒体。',
+    icon: '/images/tools/immersive-translate.png',
+    platforms: ['浏览器扩展'],
+    officialUrl: 'https://immersivetranslate.com',
+    officialBtnText: '安装扩展',
+    tutorialUrl: 'https://immersivetranslate.com/docs',
+    tutorialBtnText: '使用指南',
+  },
+];
+const toolsJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      '@id': 'https://yebo.baby/tools#page',
+      url: 'https://yebo.baby/tools',
+      name: '实用工具箱 & 站点导航 | 夜泊',
+      description: '精心筛选并整理的优质科学上网客户端、AI 生产力助手、网络诊断测速与实用订阅工具，开箱即用，提升日常数字生活效率。',
+      isPartOf: {
+        '@type': 'WebSite',
+        '@id': 'https://yebo.baby/#website',
+        name: '夜泊',
+        url: 'https://yebo.baby',
+      },
+    },
+    {
+      '@type': 'ItemList',
+      itemListElement: tools.map((t, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        name: t.name,
+        description: t.desc,
+        url: t.officialUrl,
+      })),
+    },
+  ],
+};
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>实用工具箱 & 客户端下载导航 | 夜泊</title>
+    <meta name="description" content="精心筛选并整理的优质科学上网客户端、AI 生产力助手、网络诊断测速与实用订阅工具，开箱即用，提供官方直接下载与详细配置教程。" />
+    <meta name="keywords" content="代理客户端, Clash Verge, Sing-box, Shadowrocket, v2rayN, 订阅转换, 测速工具, 节点工具箱, 夜泊" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://yebo.baby/tools" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph (Bing / Social / Copilot Rich Snippet) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="夜泊" />
+    <meta property="og:title" content="实用工具箱 & 客户端下载导航 | 夜泊" />
+    <meta property="og:description" content="精心筛选并整理的优质科学上网客户端、AI 生产力助手、网络诊断测速与实用订阅工具，开箱即用，提供官方直接下载与详细配置教程。" />
+    <meta property="og:url" content="https://yebo.baby/tools" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="实用工具箱 & 客户端下载导航 | 夜泊" />
+    <meta name="twitter:description" content="精心筛选并整理的优质科学上网客户端、AI 生产力助手、网络诊断测速与实用订阅工具，开箱即用，提供官方直接下载与详细配置教程。" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(toolsJsonLd)} />
+  </head>
+  <body>
+    <Header />
+
+    <main class="tools-page-main">
+      <div class="tools-page-container">
+        <!-- 头部标题 -->
+        <header class="tools-header">
+          <div class="tools-kicker">
+            <span class="kicker-line"></span>
+            <span class="kicker-text">数字利器 · 站点导航</span>
+            <span class="kicker-line"></span>
+          </div>
+          <h1 class="tools-title">实用工具箱 & 站点导航</h1>
+          <p class="tools-subtitle">
+            精心筛选并整理的优质科学上网客户端、AI 生产力助手、网络诊断测速与实用订阅工具，开箱即用，提升日常数字生活效率。
+          </p>
+        </header>
+
+        <!-- 分类过滤选项卡 (一模一样仿照 dafeiyu.blog/tools) -->
+        <div class="tools-filter-tabs" id="toolTabs">
+          <button class="tool-tab-btn active" data-tab="all">全部工具 ({tools.length})</button>
+          <button class="tool-tab-btn" data-tab="proxy">网络代理客户端 ({tools.filter(t => t.category === 'proxy').length})</button>
+          <button class="tool-tab-btn" data-tab="ai">AI 智能助手 ({tools.filter(t => t.category === 'ai').length})</button>
+          <button class="tool-tab-btn" data-tab="network">网络测速与诊断 ({tools.filter(t => t.category === 'network').length})</button>
+          <button class="tool-tab-btn" data-tab="media">订阅转换与流媒体 ({tools.filter(t => t.category === 'media').length})</button>
+        </div>
+
+        <!-- 卡片三列网格 (Tools Grid) -->
+        <div class="tools-grid" id="toolsGrid">
+          {tools.map((tool) => (
+            <div class="tool-card glass-panel" data-category={tool.category}>
+              <!-- 卡片头部：图标 + 标题 + 分类徽章 -->
+              <div class="tool-card-top">
+                <div class="tool-icon">
+                  <img src={tool.icon} alt={`${tool.name} 客户端官方图标与下载`} width="48" height="48" loading="lazy" />
+                </div>
+                <div class="tool-header-text">
+                  <h3 class="tool-name" title={tool.name}>{tool.name}</h3>
+                  <span class="tool-category-badge">{tool.badge}</span>
+                </div>
+              </div>
+
+              <!-- 卡片简介 -->
+              <p class="tool-desc">{tool.desc}</p>
+
+              <!-- 卡片底栏：平台徽章 + 双按钮 (官网下载 / 使用教程) -->
+              <div class="tool-card-footer">
+                <div class="tool-platforms">
+                  {tool.platforms.map((plat) => (
+                    <span class="platform-badge">{plat}</span>
+                  ))}
+                </div>
+
+                <div class="tool-actions">
+                  <!-- 详细使用教程按钮 (严格满足用户要求：在官网下载旁边放上使用教程) -->
+                  <a href={tool.tutorialUrl} class="tool-tutorial-btn" title={`查看 ${tool.name} 详细教程`}>
+                    <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>{tool.tutorialBtnText}</span>
+                  </a>
+
+                  <!-- 官网下载 / 访问按钮 -->
+                  <a href={tool.officialUrl} target="_blank" rel="noopener noreferrer" class="tool-btn" title={`前往 ${tool.name} 官方渠道`}>
+                    <span>{tool.officialBtnText}</span>
+                    <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+
+    <!-- 客户端无缝过滤交互脚本 -->
+    <script>
+      const tabBtns = document.querySelectorAll('.tool-tab-btn');
+      const toolCards = document.querySelectorAll<HTMLElement>('.tool-card');
+
+      tabBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          tabBtns.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const filter = btn.getAttribute('data-tab');
+
+          toolCards.forEach((card) => {
+            const cardCat = card.getAttribute('data-category');
+            if (filter === 'all' || cardCat === filter) {
+              card.style.display = 'flex';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .tools-page-main {
+    min-height: 100vh;
+    padding: 7rem 1.5rem 8rem;
+    background: #020610;
+  }
+
+  .tools-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* 头部标题区 */
+  .tools-header {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 3rem;
+  }
+
+  .tools-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .kicker-line {
+    width: 2.5rem;
+    height: 1px;
+    background: rgba(56, 189, 248, 0.4);
+  }
+
+  .kicker-text {
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    color: #38bdf8;
+    text-transform: uppercase;
+  }
+
+  .tools-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 1rem;
+    letter-spacing: 0.04em;
+  }
+
+  .tools-subtitle {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #94a3b8;
+  }
+
+  /* 分类过滤按钮条 (一模一样的高质感圆角药丸或直角标签) */
+  .tools-filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2.25rem;
+    justify-content: center;
+  }
+
+  .tool-tab-btn {
+    padding: 0.5rem 1.15rem;
+    background: rgba(14, 32, 58, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    font-size: 0.86rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+  }
+
+  .tool-tab-btn:hover {
+    color: #f8fafc;
+    border-color: rgba(56, 189, 248, 0.4);
+    background: rgba(18, 42, 75, 0.8);
+  }
+
+  .tool-tab-btn.active {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #38bdf8;
+    box-shadow: 0 0 16px rgba(2, 132, 199, 0.4);
+  }
+
+  /* 3列网格布局 */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* 工具卡片 */
+  .tool-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: rgba(10, 25, 47, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .tool-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(56, 189, 248, 0.35);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+  }
+
+  .tool-card-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .tool-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: #0b192e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    overflow: hidden;
+    padding: 2px;
+  }
+
+  .tool-icon img {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .tool-header-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tool-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tool-category-badge {
+    font-size: 0.74rem;
+    padding: 0.18rem 0.55rem;
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    border-radius: 4px;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    letter-spacing: 0.04em;
+  }
+
+  .tool-desc {
+    font-size: 0.88rem;
+    color: #94a3b8;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+
+  .tool-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    flex-wrap: wrap;
+  }
+
+  .tool-platforms {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  .platform-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #38bdf8;
+    background: rgba(14, 38, 70, 0.85);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    padding: 0.22rem 0.6rem;
+    border-radius: 4px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    transition: all 0.2s ease;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .tool-card:hover .platform-badge {
+    border-color: rgba(56, 189, 248, 0.7);
+    color: #ffffff;
+    background: rgba(2, 132, 199, 0.25);
+  }
+
+  .tool-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  /* 详细使用教程按钮 */
+  .tool-tutorial-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.38rem 0.7rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #7dd3fc;
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .tool-tutorial-btn:hover {
+    background: rgba(56, 189, 248, 0.2);
+    border-color: #38bdf8;
+    color: #ffffff;
+  }
+
+  /* 官网下载/访问按钮 */
+  .tool-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.38rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: #0284c7;
+    border: 1px solid #38bdf8;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .tool-btn:hover {
+    background: #0369a1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+  }
+</style>
+

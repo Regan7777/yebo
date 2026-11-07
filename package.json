@@ -1,0 +1,18 @@
+{
+  "name": "yebo-blog",
+  "version": "1.0.0",
+  "description": "夜泊 - 最后的数字避难所与深海自留地",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host",
+    "build": "astro build",
+    "preview": "astro preview",
+    "docs:check-links": "node check_links.cjs",
+    "push:indexnow": "node push_indexnow.cjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@bruits/satteri-win32-x64-msvc": "^0.11.5",
+    "astro": "^7.4.7"
+  }
+}

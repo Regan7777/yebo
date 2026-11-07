@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /go/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /go/
+
+User-agent: Googlebot
+Allow: /
+Disallow: /go/
+
+Sitemap: https://yebo.baby/sitemap-index.xml

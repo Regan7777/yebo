@@ -1,0 +1,494 @@
+---
+import { getCollection } from 'astro:content';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import OceanHero from '../components/OceanHero.astro';
+import PostCard from '../components/PostCard.astro';
+import '../styles/global.css';
+
+// 获取所有文章：置顶文章永远优先居首，其余按时间倒序严格排列
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => {
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+});
+
+// 提取分类与标签统计（优先保证核心三大分类）
+const coreCategories = ['全部', '机场推荐', '客户端教程', '使用工具'];
+const otherCategories = [...new Set(allPosts.map((post) => post.data.category))].filter(c => !coreCategories.includes(c));
+const categories = [...coreCategories, ...otherCategories];
+const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))];
+
+const siteJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': 'https://yebo.baby/#website',
+      url: 'https://yebo.baby/',
+      name: '夜泊',
+      description: '月落乌啼，江枫渔火。一处专注出海网络节点评测、开源客户端实战与实用技术工具的文字锚地。',
+      inLanguage: 'zh-CN',
+      publisher: {
+        '@type': 'Organization',
+        name: '夜泊',
+        url: 'https://yebo.baby',
+      },
+    },
+    {
+      '@type': 'Organization',
+      '@id': 'https://yebo.baby/#organization',
+      name: '夜泊',
+      url: 'https://yebo.baby',
+      logo: 'https://yebo.baby/favicon.svg',
+    },
+    {
+      '@type': 'SiteNavigationElement',
+      name: ['首页', '文章归档', '实用工具', '关于博客'],
+      url: ['https://yebo.baby/', 'https://yebo.baby/#posts', 'https://yebo.baby/tools', 'https://yebo.baby/about'],
+    },
+  ],
+};
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>夜泊 · 节点评测、客户端指南与实用工具</title>
+    <meta name="description" content="月落乌啼，江枫渔火。一处专注出海网络节点评测、开源客户端实战与实用技术工具的文字锚地。" />
+    <meta name="keywords" content="机场评测, 节点配置, 客户端教程, 实用工具, IPLC专线, Clash Verge, Sing-box, 2026推荐, 夜泊" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://yebo.baby/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph (Bing / Social / Copilot Rich Snippet) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="夜泊" />
+    <meta property="og:title" content="夜泊 · 节点评测、客户端指南与实用工具" />
+    <meta property="og:description" content="月落乌啼，江枫渔火。一处专注出海网络节点评测、开源客户端实战与实用技术工具的文字锚地。" />
+    <meta property="og:url" content="https://yebo.baby/" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="夜泊 · 节点评测、客户端指南与实用工具" />
+    <meta name="twitter:description" content="月落乌啼，江枫渔火。一处专注出海网络节点评测、开源客户端实战与实用技术工具的文字锚地。" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(siteJsonLd)} />
+  </head>
+  <body>
+    <!-- 沉浸式海平面与下潜视差首屏 -->
+    <OceanHero />
+
+    <!-- 正文内容区：停泊锚地 -->
+    <main class="content-anchor" id="posts">
+      <div class="content-container">
+        <!-- 区域标题与指引 -->
+        <div class="section-header">
+          <div class="section-kicker">
+            <span class="kicker-line"></span>
+            <span class="kicker-text">抵达深海锚地 · 文章归档</span>
+            <span class="kicker-line"></span>
+          </div>
+          <h2 class="section-title">所有沉淀于此的文字</h2>
+          <p class="section-desc">潮水带走所有的喧杂浮沫，沉入深潭的字句，只对时间与自我诚实。</p>
+        </div>
+
+        <!-- 布局：文章流 + 侧边栏 -->
+        <div class="main-layout">
+          <!-- 左侧：文章列表 -->
+          <section class="posts-column">
+            <!-- 分类切换 -->
+            <div class="category-tabs">
+              {categories.map((cat, idx) => (
+                <button
+                  class={`cat-tab ${idx === 0 ? 'active' : ''}`}
+                  data-category={cat}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            <!-- 文章卡片容器 -->
+            <div class="posts-list" id="posts-list">
+              {sortedPosts.map((post) => (
+                <div class="post-item" data-category={post.data.category}>
+                  <PostCard
+                    title={post.data.title}
+                    description={post.data.description}
+                    pubDate={post.data.pubDate}
+                    slug={post.id}
+                    category={post.data.category}
+                    tags={post.data.tags}
+                    readTime={post.data.readTime}
+                    featured={post.data.featured}
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <!-- 右侧：作者自白与锚地状态 -->
+          <aside class="sidebar-column">
+            <!-- 博客自白卡片 -->
+            <div class="glass-panel sidebar-card">
+              <div class="author-header">
+                <div class="author-avatar" title="夜泊">
+                  <svg viewBox="0 0 38 18" width="28" height="15" fill="none">
+                    <path d="M 3,10.5 C 7.5,5.5 13.5,5.5 18.5,10.2 C 23.5,15 29,15 34.5,9.5" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round"></path>
+                    <path d="M 7.5,14 C 11.5,9.8 15.5,9.8 19.5,13.2 C 23.5,16.5 27.5,16.5 31.5,12.8" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round" opacity="0.65"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="author-name">夜 泊</h3>
+                  <p class="author-tagline">节点测评 · 客户端指南 · 实用工具</p>
+                </div>
+              </div>
+              <p class="sidebar-bio">
+                专注于机场线路测评、客户端配置教程与实用工具分享。内容定期维护更新，务实避坑。
+              </p>
+              <div class="stats-grid">
+                <div class="stat-box">
+                  <span class="stat-num">{allPosts.length}</span>
+                  <span class="stat-label">篇文字</span>
+                </div>
+                <div class="stat-box">
+                  <span class="stat-num">{categories.length - 1}</span>
+                  <span class="stat-label">个分类</span>
+                </div>
+                <div class="stat-box">
+                  <span class="stat-num">{allTags.length}</span>
+                  <span class="stat-label">个标签</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 热门标签 -->
+            <div class="glass-panel sidebar-card">
+              <h4 class="card-subtitle">标签云</h4>
+              <div class="tags-cloud">
+                {allTags.map((tag) => (
+                  <span class="cloud-tag">#{tag}</span>
+                ))}
+              </div>
+            </div>
+
+            <!-- 测评须知 -->
+            <div class="glass-panel sidebar-card">
+              <h4 class="card-subtitle">测评须知</h4>
+              <ul class="principles-list">
+                <li>· 测速结果仅反映测试当时的网络环境与节点状态</li>
+                <li>· 实际体验受地区运营商、物理距离与路由波动影响</li>
+                <li>· 建议优先考虑月付周期，备用不同线路互为容灾</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <!-- 底部 -->
+    <Footer />
+
+    <!-- 分类筛选与顶部导航联动交互脚本 -->
+    <script>
+      const tabs = document.querySelectorAll('.cat-tab');
+      const items = document.querySelectorAll('.post-item');
+
+      function filterCategory(targetCat: string) {
+        tabs.forEach((t) => {
+          if (t.getAttribute('data-category') === targetCat) {
+            t.classList.add('active');
+          } else {
+            t.classList.remove('active');
+          }
+        });
+
+        items.forEach((item) => {
+          const itemCat = item.getAttribute('data-category');
+          if (targetCat === '全部' || itemCat === targetCat) {
+            (item as HTMLElement).style.display = 'flex';
+          } else {
+            (item as HTMLElement).style.display = 'none';
+          }
+        });
+      }
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const selectedCat = tab.getAttribute('data-category') || '全部';
+          if (selectedCat === '使用工具') {
+            window.location.href = '/tools';
+            return;
+          }
+          filterCategory(selectedCat);
+        });
+      });
+
+      // 顶部导航联动筛选
+      document.querySelectorAll('[data-nav-cat]').forEach((nav) => {
+        nav.addEventListener('click', (e) => {
+          const targetCat = nav.getAttribute('data-nav-cat');
+          if (targetCat) {
+            filterCategory(targetCat);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .content-anchor {
+    position: relative;
+    z-index: 10;
+    background: #020610;
+    padding: 5rem 1.5rem 8rem;
+    min-height: 100vh;
+  }
+
+  .content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto 3.5rem;
+  }
+
+  .section-kicker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .kicker-line {
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.45));
+  }
+
+  .kicker-line:last-child {
+    background: linear-gradient(90deg, rgba(148, 163, 184, 0.45), transparent);
+  }
+
+  .kicker-text {
+    font-family: var(--font-serif);
+    font-size: 0.88rem;
+    letter-spacing: 0.28em;
+    color: #94a3b8;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-size: 2.2rem;
+    color: #f8fafc;
+    margin-bottom: 0.75rem;
+    font-weight: 800;
+  }
+
+  .section-desc {
+    color: #94a3b8;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .main-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 992px) {
+    .main-layout {
+      grid-template-columns: 1fr 340px;
+    }
+  }
+
+  /* 文章流分类：去 AI 化，采用纯粹书刊下划线切换栏 */
+  .category-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 0.75rem;
+  }
+
+  .cat-tab {
+    padding: 0.45rem 1.1rem;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #64748b;
+    font-size: 0.92rem;
+    font-family: var(--font-serif);
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: -0.85rem;
+  }
+
+  .cat-tab:hover {
+    color: #cbd5e1;
+    border-bottom-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .cat-tab.active {
+    background: transparent;
+    border-bottom-color: #38bdf8;
+    color: #f8fafc;
+    font-weight: 600;
+    box-shadow: none;
+  }
+
+  .posts-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 600px) {
+    .posts-list {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+  }
+
+  .post-item {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* 侧边栏 */
+  .sidebar-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sidebar-card {
+    padding: 1.75rem;
+  }
+
+  .author-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .author-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+  }
+
+  .author-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .author-tagline {
+    font-size: 0.78rem;
+    color: #64748b;
+  }
+
+  .sidebar-bio {
+    font-size: 0.88rem;
+    color: #94a3b8;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .stat-box {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-num {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #38bdf8;
+    font-family: ui-monospace, monospace;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    color: #64748b;
+  }
+
+  .card-subtitle {
+    font-size: 0.92rem;
+    color: #cbd5e1;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .tags-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .cloud-tag {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #cbd5e1;
+    background: rgba(15, 33, 62, 0.85);
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    border: 1px solid rgba(56, 189, 248, 0.22);
+    transition: all 0.2s ease;
+  }
+
+  .cloud-tag:hover {
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.5);
+    background: rgba(18, 44, 82, 0.95);
+  }
+
+  .principles-list {
+    list-style: none;
+    font-size: 0.82rem;
+    color: #94a3b8;
+    line-height: 2;
+  }
+
+  .principles-list li {
+    color: #94a3b8;
+  }
+</style>
+

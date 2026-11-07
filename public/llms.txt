@@ -1,0 +1,33 @@
+# 夜泊 (yebo.baby)
+
+> 夜泊是一个专注于 2026 年主流出海网络服务评测、物理专线架构分析与全平台开源客户端实战指南的技术知识库。内容坚持客观实测、数据优先、月付验证与纯净工程标准。
+
+## 核心导航
+
+- 主站首页: https://yebo.baby/
+- 实用工具箱: https://yebo.baby/tools
+- 核心选型指南: https://yebo.baby/posts/vpn-airport-recommendation-guide
+
+## 精选专线服务深度评测
+
+- [2026 主流机场测评与选型指南](https://yebo.baby/posts/vpn-airport-recommendation-guide): 综合对比全量 IPLC 专线、原生双 ISP 住宅 IP、资费梯度与流媒体/AI 解锁表现。
+- [神行加速深度评测](https://yebo.baby/posts/shenxing-review): 全量物理 IPLC 专线、双 ISP 纯净节点、VLESS 协议与年付 96 元特惠方案解析。
+- [大佬云深度评测](https://yebo.baby/posts/dalao-cloud-review): 企业级 IEPL 二层物理隔离专线、多入口毫秒级自动热备与终身不限时流量包拆解。
+- [闪电鼠深度评测](https://yebo.baby/posts/shandianshu-review): 原生住宅双 ISP 直连专线、防频繁 Cloudflare 验证码与 TikTok/AI 跨境业务方案。
+- [云界线深度评测](https://yebo.baby/posts/yunjiexian-review): 高性价比 IPLC 专线集群、亚太低延迟与 14 元轻量尝鲜套餐实测。
+- [环球梯深度评测](https://yebo.baby/posts/huanqiuti-review): 三网 BGP 智能入口、8 档细分资费与按量容灾包解析。
+- [榴莲云深度评测](https://yebo.baby/posts/liulian-cloud-review): 全量 IPLC 专线底座、榴莲品种阶梯资费与不限制同时在线设备数解析。
+- [拼好连免费版客观拆解](https://yebo.baby/posts/pinghaolian-review): 免注册一键连接、轻度应急与公网中继稳定性中立评测。
+
+## 客户端实战指南 (中立通用技术文档)
+
+- [Clash Verge Rev 完整实战教程](https://yebo.baby/posts/clash-verge-rev-tutorial): 跨平台安装、Mihomo 满血内核、TUN 虚拟网卡模式与规则分流。
+- [Sing-box 通用代理平台全指南](https://yebo.baby/posts/sing-box-tutorial): 极轻量待机内存 (<35MB)、Hysteria 2、Reality 协议与极简 JSON 路由编排。
+- [Shadowrocket (小火箭) iOS 新手配置](https://yebo.baby/posts/shadowrocket-tutorial): iPhone/iPad 节点订阅、全局分流策略与规则配置。
+- [Nextin (星拓) Apple 全生态客户端上手](https://yebo.baby/posts/nextin-tutorial): 免费支持 Apple TV 客厅大屏 4K 串流与 iCloud 多端静默同步。
+- [v2rayN 客户端完全配置指南](https://yebo.baby/posts/v2rayn-tutorial): Windows 老牌绿色免安装利器、真实 HTTP 握手批量测速与双内核切换。
+- [Clash Mi 跨平台轻量客户端使用指南](https://yebo.baby/posts/clash-mi-tutorial): Flutter 跨端引擎、极低内存占用与内置可视化 Web 仪表盘。
+- [Karing 客户端全功能配置教程](https://yebo.baby/posts/karing-tutorial): 免转换通吃所有格式订阅、WebDAV 跨端云同步与局域网主机加速。
+- [Subconverter 订阅无损转换实战指南](https://yebo.baby/posts/subconverter-tutorial): 格式互转、ACL4SSR 规则集注入与本地 Docker 搭建避坑。
+- [全平台主流客户端实战与深度排错](https://yebo.baby/posts/clash-verge-singbox-tutorial): 开机断网黄金自救三步法、10054 错误与系统代理深度排障。
+

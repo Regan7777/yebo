@@ -1,0 +1,213 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  slug: string;
+  category: string;
+  tags: string[];
+  readTime: string;
+  featured?: boolean;
+}
+
+const { title, description, pubDate, slug, category, tags, readTime, featured = false } = Astro.props;
+
+// 格式化日期
+const formattedDate = new Intl.DateTimeFormat('zh-CN', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+}).format(pubDate).replace(/\//g, '-');
+---
+
+<article class={`post-card glass-panel ${featured ? 'is-featured' : ''}`}>
+  <a href={`/posts/${slug}`} class="card-link">
+    <div class="card-meta">
+      <span class="category-badge">{category}</span>
+      <span class="meta-dot">·</span>
+      <time datetime={pubDate.toISOString()} class="meta-date">{formattedDate}</time>
+      <span class="meta-dot">·</span>
+      <span class="meta-readtime">{readTime}</span>
+    </div>
+
+    <h2 class="card-title">
+      {featured && <span class="featured-indicator">置顶</span>}
+      {title}
+    </h2>
+
+    <p class="card-desc">
+      {description}
+    </p>
+
+    <div class="card-footer">
+      <div class="tags-list">
+        {tags.map((tag) => (
+          <span class="tag-item">#{tag}</span>
+        ))}
+      </div>
+      <span class="read-more">
+        <span>展开阅读</span>
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </span>
+    </div>
+  </a>
+</article>
+
+<style>
+  .post-card {
+    position: relative;
+    padding: 1.35rem 1.45rem;
+    transition: all 0.25s ease;
+    background: rgba(10, 25, 47, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.4);
+  }
+
+  .post-card:hover {
+    transform: translateY(-2px);
+    background: rgba(14, 34, 62, 0.9);
+    border-color: rgba(56, 189, 248, 0.45);
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.65);
+  }
+
+  .is-featured {
+    border-color: rgba(56, 189, 248, 0.35);
+    background: linear-gradient(135deg, rgba(14, 40, 75, 0.8), rgba(7, 22, 42, 0.85));
+  }
+
+  .card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-sans);
+  }
+
+  .category-badge {
+    color: #38bdf8;
+    background: rgba(14, 38, 70, 0.9);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.76rem;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    letter-spacing: 0.04em;
+    font-family: var(--font-sans);
+  }
+
+  .meta-dot {
+    color: #475569;
+  }
+
+  .meta-date, .meta-readtime {
+    color: #94a3b8;
+    font-weight: 500;
+  }
+
+  .card-title {
+    font-size: 1.12rem;
+    font-weight: 700;
+    line-height: 1.45;
+    color: #f8fafc;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    transition: color 0.2s ease;
+    font-family: var(--font-sans);
+  }
+
+  .post-card:hover .card-title {
+    color: #38bdf8;
+  }
+
+  .featured-indicator {
+    font-size: 0.7rem;
+    padding: 0.12rem 0.45rem;
+    border-radius: 3px;
+    background: rgba(56, 189, 248, 0.18);
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    color: #38bdf8;
+    font-weight: 700;
+    white-space: nowrap;
+    margin-top: 0.15rem;
+    font-family: var(--font-sans);
+  }
+
+  .card-desc {
+    font-size: 0.88rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin-top: auto;
+  }
+
+  .tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag-item {
+    font-size: 0.75rem;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .post-card:hover .tag-item {
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.1);
+    border-color: rgba(56, 189, 248, 0.3);
+  }
+
+  .read-more {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.82rem;
+    color: #38bdf8;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+    white-space: nowrap;
+    font-family: var(--font-sans);
+  }
+
+  .post-card:hover .read-more {
+    transform: translateX(4px);
+  }
+</style>
+

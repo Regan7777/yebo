@@ -1,0 +1,406 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+:root {
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Source Han Sans SC', sans-serif;
+  --font-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', 'Source Han Serif SC', serif;
+  
+  --color-primary-navy: #0d1e36;
+  --color-navy-hover: #172f54;
+  --color-text-dark: #0f1f38;
+  --color-text-body: #334155;
+  --color-text-muted: #64748b;
+  
+  --color-bg-light: #f8fafc;
+  --color-bg-deep: #030814;
+  --color-gold-accent: #f59e0b;
+  --color-ocean-blue: #0284c7;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-deep);
+  color: #f1f5f9;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: #030814;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #020610;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8;
+}
+
+/* 面板直角排版：去 AI 拟态与圆角，回归典雅建筑与书刊线条 */
+.glass-panel {
+  background: rgba(10, 25, 47, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(148, 163, 184, 0.3);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* 正文排版 */
+.prose {
+  color: #cbd5e1;
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  font-family: var(--font-serif);
+  color: #fff;
+  scroll-margin-top: 6rem;
+}
+
+.prose h1 {
+  font-size: 1.85rem;
+  font-weight: 700;
+  margin-top: 2.8rem;
+  margin-bottom: 1.2rem;
+  color: #f8fafc;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.6rem;
+}
+
+.prose h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: 2.6rem;
+  margin-bottom: 1.2rem;
+  color: #f1f5f9;
+  position: relative;
+  padding-left: 0.85rem;
+  border-left: 3px solid #38bdf8;
+}
+
+.prose h3 {
+  font-size: 1.18rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.85rem;
+  color: #e2e8f0;
+}
+
+.prose h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.6rem;
+  color: #cbd5e1;
+}
+
+.prose p {
+  margin-bottom: 1.4rem;
+  text-align: justify;
+}
+
+.prose strong {
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.prose a {
+  color: #38bdf8;
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(56, 189, 248, 0.4);
+  transition: all 0.2s ease;
+}
+
+.prose a:hover {
+  color: #7dd3fc;
+  border-bottom-style: solid;
+}
+
+/* ==========================================================================
+   AI 智能抓取结语 / 核心导读卡片 (参考 zhiwang.one 高质感提要构成)
+   ========================================================================== */
+.prose .ai-summary-card {
+  margin: 1.8rem 0 2.2rem;
+  padding: 1.35rem 1.6rem;
+  background: linear-gradient(135deg, rgba(14, 38, 72, 0.8), rgba(6, 20, 42, 0.9));
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-left: 4px solid #38bdf8;
+  border-radius: 4px;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.45);
+}
+
+.prose .ai-summary-card .ai-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-wrap: wrap;
+}
+
+.prose .ai-summary-card .ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+  padding: 0.22rem 0.65rem;
+  border-radius: 3px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  letter-spacing: 0.04em;
+  font-family: var(--font-sans);
+}
+
+.prose .ai-summary-card .ai-badge svg {
+  color: #38bdf8;
+  flex-shrink: 0;
+}
+
+.prose .ai-summary-card .ai-date {
+  font-size: 0.76rem;
+  color: #94a3b8;
+  font-family: var(--font-sans);
+}
+
+.prose .ai-summary-card .ai-content {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #cbd5e1;
+}
+
+.prose .ai-summary-card .ai-content p {
+  margin-bottom: 0.5rem !important;
+}
+
+.prose .ai-summary-card .ai-content p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.prose .ai-summary-card .ai-content strong {
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+/* 正文内的官方外链直达卡片 */
+.prose .official-link-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.8rem 0;
+  padding: 1.1rem 1.4rem;
+  background: linear-gradient(135deg, rgba(14, 38, 70, 0.75), rgba(8, 20, 38, 0.85));
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-left: 4px solid #38bdf8;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.prose .official-link-box .box-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.prose .official-link-box .box-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.prose .official-link-box .box-desc {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  margin: 0 !important;
+}
+
+.prose .official-link-box .box-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1.1rem;
+  background: #0284c7;
+  color: #ffffff !important;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #38bdf8;
+  border-bottom: 1px solid #38bdf8 !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.prose .official-link-box .box-btn:hover {
+  background: #0369a1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45);
+}
+
+.prose ul, .prose ol {
+  padding-left: 1.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.prose li {
+  margin-bottom: 0.65rem;
+  line-height: 1.75;
+}
+
+.prose li::marker {
+  color: #38bdf8;
+}
+
+.prose blockquote {
+  margin: 2rem 0;
+  padding: 1rem 1.4rem;
+  border-left: 3px solid rgba(56, 189, 248, 0.6);
+  background: rgba(14, 32, 58, 0.45);
+  color: #94a3b8;
+  font-style: normal;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.prose hr {
+  margin: 3rem 0;
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.25), transparent);
+}
+
+.prose pre {
+  margin: 1.8rem 0;
+  padding: 1.2rem 1.5rem;
+  background: #091220 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0;
+  overflow-x: auto;
+}
+
+.prose code:not(pre code) {
+  padding: 0.15rem 0.4rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: #7dd3fc;
+  border-radius: 0;
+  font-size: 0.9em;
+}
+
+/* ==========================================================================
+   表格专属优雅排版与防挤压换行（彻底解决表头单字折行与表格挤压错乱）
+   ========================================================================== */
+.table-responsive-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 2.2rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(8, 20, 38, 0.75);
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+}
+
+.table-responsive-container table,
+.prose table {
+  width: 100%;
+  min-width: 820px; /* 确保多列数据在任何屏幕下舒展呈现 */
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  text-align: left;
+  border: none;
+  background: transparent;
+  margin: 0;
+  display: table !important;
+}
+
+.prose thead {
+  background: rgba(14, 34, 62, 0.98);
+  border-bottom: 2px solid #38bdf8;
+}
+
+.prose th {
+  padding: 0.95rem 1.25rem;
+  color: #f8fafc;
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap !important; /* 关键：表头文字绝对不单字折行！解决“序\n号”、“机场\n名称” */
+  word-break: keep-all !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid #38bdf8;
+  background: rgba(14, 34, 62, 0.98);
+  text-align: left;
+}
+
+.prose td {
+  padding: 0.9rem 1.25rem;
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  vertical-align: middle;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+/* 序号、名称、协议、起步资费、官网入口等关键数据列保持不换行，视觉更整齐 */
+.prose td:first-child,
+.prose td:nth-child(2),
+.prose td:nth-child(4),
+.prose td:nth-child(5),
+.prose td:nth-child(6),
+.prose td:last-child {
+  white-space: nowrap;
+}
+
+.prose tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.prose tr:hover td {
+  background: rgba(56, 189, 248, 0.06);
+}
+
+.prose td strong {
+  color: #38bdf8;
+  font-weight: 600;
+}

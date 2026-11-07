@@ -1,0 +1,186 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+const aboutJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'AboutPage',
+      '@id': 'https://yebo.baby/about#page',
+      url: 'https://yebo.baby/about',
+      name: '关于夜泊 | 一处安静书写的文字锚地',
+      description: '关于夜泊博客的建站初衷、书写原则与中立技术分享备忘。',
+      isPartOf: {
+        '@type': 'WebSite',
+        '@id': 'https://yebo.baby/#website',
+        name: '夜泊',
+        url: 'https://yebo.baby',
+      },
+    },
+    {
+      '@type': 'Person',
+      '@id': 'https://yebo.baby/about#author',
+      name: '夜泊',
+      url: 'https://yebo.baby/about',
+      description: '专注出海网络节点评测、开源客户端实战与实用技术工具的技术博主。',
+    },
+  ],
+};
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>关于夜泊 | 一处安静书写的文字锚地</title>
+    <meta name="description" content="关于夜泊博客的建站初衷、书写原则与中立技术分享备忘。" />
+    <meta name="keywords" content="关于夜泊, 博客介绍, 技术原则, 节点测评, 中立分享" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://yebo.baby/about" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph (Bing / Social / Copilot Rich Snippet) -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="夜泊" />
+    <meta property="og:title" content="关于夜泊 | 一处安静书写的文字锚地" />
+    <meta property="og:description" content="关于夜泊博客的建站初衷、书写原则与中立技术分享备忘。" />
+    <meta property="og:url" content="https://yebo.baby/about" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="关于夜泊 | 一处安静书写的文字锚地" />
+    <meta name="twitter:description" content="关于夜泊博客的建站初衷、书写原则与中立技术分享备忘。" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(aboutJsonLd)} />
+  </head>
+  <body>
+    <Header />
+
+    <main class="about-main">
+      <div class="about-container">
+        <!-- 头部标题 -->
+        <div class="about-hero">
+          <div class="about-kicker">
+            <span class="kicker-line"></span>
+            <span class="kicker-text">关于此处</span>
+            <span class="kicker-line"></span>
+          </div>
+          <h1 class="about-title">行舟经此 · 安静书写</h1>
+          <p class="about-tagline">“记些常用的技术与工具，也留下点随笔与思考。”</p>
+        </div>
+
+        <!-- 介绍卡片 -->
+        <div class="glass-panel about-card">
+          <div class="prose">
+            <h2>一、关于这里</h2>
+            <p>
+              在互联网漫游多年，折腾过不少工具与站点，也零零散散写过一些记录。
+            </p>
+            <p>
+              随着时间推移，许多放在第三方平台的内容，往往随着服务停更或账号变迁而渐渐遗失。思来想去，文字与笔记最终还是应该回到最简单、最受自己掌控的状态。
+            </p>
+            <p>
+              <strong>「夜泊」便是这样一个安静的落脚点。</strong> 这里主要整理常用的网络工具、客户端教程，以及偶尔沉淀下来的技术随笔与个人思考。
+            </p>
+
+            <h2>二、书写原则</h2>
+            <ul>
+              <li>
+                <strong>去芜存菁</strong>：只记录真正亲测过、对日后有参考价值的内容，不堆砌无意义的空话。
+              </li>
+              <li>
+                <strong>本地存根</strong>：全部内容均以本地纯 Markdown 格式保存并纳入版本控制，不依赖特定数据库或私有平台。
+              </li>
+              <li>
+                <strong>长久安心</strong>：使用纯静态页面分发，零服务器运维负担，安稳可靠。
+              </li>
+            </ul>
+
+            <h2>三、技术架构</h2>
+            <p>
+              本站基于 <code>Astro</code> 静态生成器构建，采用极简明朗的暗色质感与视差滚动交互。
+              生成的静态 HTML 通过全球边缘网络分发，访问迅捷，简单纯粹。
+            </p>
+
+            <blockquote>
+              “江上之清风，与山间之明月，耳得之而为声，目遇之而成色，取之无禁，用之不竭。”
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .about-main {
+    padding: 7rem 1.5rem 8rem;
+    min-height: 100vh;
+    background: #020610;
+  }
+
+  .about-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .about-hero {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .about-kicker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .kicker-line {
+    display: inline-block;
+    width: 36px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.45));
+  }
+
+  .kicker-line:last-child {
+    background: linear-gradient(90deg, rgba(148, 163, 184, 0.45), transparent);
+  }
+
+  .kicker-text {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    color: #94a3b8;
+    text-transform: uppercase;
+  }
+
+  .about-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    color: #f8fafc;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-tagline {
+    font-size: 1.1rem;
+    color: #94a3b8;
+  }
+
+  .about-card {
+    padding: 2.5rem 3rem;
+  }
+
+  @media (max-width: 640px) {
+    .about-card {
+      padding: 1.5rem 1.25rem;
+    }
+  }
+</style>
