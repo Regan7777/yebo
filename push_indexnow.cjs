@@ -31,24 +31,30 @@ const payload = {
 };
 
 async function submitIndexNow() {
-  try {
-    const response = await fetch('https://api.indexnow.org/indexnow', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      body: JSON.stringify(payload),
-    });
+  const endpoints = [
+    { name: 'Bing IndexNow', url: 'https://www.bing.com/indexnow' },
+    { name: 'IndexNow API', url: 'https://api.indexnow.org/indexnow' }
+  ];
 
-    if (response.ok || response.status === 200 || response.status === 202) {
-      console.log(`[IndexNow] Successfully pushed ${urls.length} URLs to Bing & IndexNow engines! (Status: ${response.status})`);
-    } else {
-      const text = await response.text();
-      console.log(`[IndexNow] Server responded with status ${response.status}: ${text}`);
-      console.log('[Notice] Once DNS resolution for yebo.baby is active, this request will succeed automatically.');
+  for (const ep of endpoints) {
+    try {
+      const response = await fetch(ep.url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok || response.status === 200 || response.status === 202) {
+        console.log(`[IndexNow -> ${ep.name}] 成功推送 ${urls.length} 个 URL！(状态码: ${response.status})`);
+      } else {
+        const text = await response.text();
+        console.log(`[IndexNow -> ${ep.name}] 返回状态码 ${response.status}: ${text}`);
+      }
+    } catch (err) {
+      console.error(`[IndexNow -> ${ep.name}] 网络错误:`, err.message);
     }
-  } catch (err) {
-    console.error(`[IndexNow] Network error during submission:`, err.message);
   }
 }
 

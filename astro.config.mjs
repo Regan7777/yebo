@@ -28,7 +28,7 @@ export default defineConfig({
     },
     '/go/yunjiexian': {
       status: 302,
-      destination: 'https://fugui0077.yunjiexianaff.com/#/?code=qA3LF6hW'
+      destination: 'https://fugui0077.yunjiexianaff.com/#/?code=FVkiFyAx'
     },
     '/go/pinghaolian': {
       status: 302,
